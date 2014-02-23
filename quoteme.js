@@ -1,3 +1,13 @@
+/*
+ * Quoteme.JS
+ * Medium-like, Share to Twitter popup button on text selection
+ *
+ * @author Kostas Bariotis <konmpar@gmail.com>
+ * @licence MIT Licence
+ *
+ * Copyright © 2014 Kostas Bariotis <konmpar@gmail.com>
+ *
+ */
 (function(){
 
     /*
@@ -30,8 +40,6 @@
     };
 
     function bindUIEvents() {
-        // bindEvent(window, "mouseup", getSelection);
-        // bindEvent(window, "mousedown", setMouseDownPosition);
         bindEvent(document.querySelector(container), "mouseup", getSelection);
         bindEvent(document.querySelector(container), "mousedown", setMouseDownPosition);
         bindEvent(floatElement, "click", openPopup);
