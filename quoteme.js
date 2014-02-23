@@ -8,7 +8,8 @@
      *
      */
     var container            = ".article",
-        pathToImg            = "./tw.png",  /* /path/to/tw.png */
+        pathToImg            = "",  /* /path/to/tw.png | leave it blank for Github's raw img on
+                                     * https://raw2.github.com/stakisko/quoteme.js/master/example/tw.png */
         viaParam             = "kbariotis", /* via param on twitter post */
         twShareUrl           = "https://twitter.com/intent/tweet?",
         shareUrl             = "",
@@ -103,7 +104,10 @@
         floatElement.style.width            = "40px";
         floatElement.style.height           = "40px";
         floatElement.style.background       = "rgba(0,0,0,0.5)";
-        floatElement.style.backgroundImage  = "url(" + pathToImg + ")";
+        pathToImg = !!pathToImg ?
+                    pathToImg :
+                    "https://raw2.github.com/stakisko/quoteme.js/master/example/tw.png";
+        floatElement.style.backgroundImage  = "url("+ pathToImg +")";
         floatElement.style.backgroundRepeat = "no-repeat";
         floatElement.style.backgroundPosition = "center";
         floatElement.style.borderRadius     = "4%";
