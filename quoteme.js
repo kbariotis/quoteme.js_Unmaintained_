@@ -65,10 +65,12 @@
                      /* 7 for the `via` word, some spaces and @*/
 
         if(parseInt(selectedText.length) + length > 140) {
-            /* Remove new lines and add `...` and `"` */
-            selectedText = selectedText.substring(0,135 - parseInt(length)).replace(/(\r\n|\n|\r)/gm,"");;
-            selectedText = "\"" + selectedText + "...\"";
+            /* Remove new lines */
+            selectedText = selectedText.substring(0,135 - parseInt(length));
         }
+
+        /* add `...` and `"` */
+        selectedText = "\"" + selectedText.replace(/(\r\n|\n|\r)/gm,"") + "...\"";
 
         /* Glue the pieces together */
         shareUrl = twShareUrl;
