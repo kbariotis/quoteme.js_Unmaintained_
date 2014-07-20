@@ -13,7 +13,6 @@ Medium-like, Share to Twitter popup button on text selection
 
 Change the first two options according to your needs
 
-            
 ```
 /* `container` : Determine which is your text container tha you
  * want the script to run on click of the mouse. If it runs on
@@ -24,3 +23,4 @@ Change the first two options according to your needs
  */
 var container = ".article",
     pathToImg = "./tw.png",
+```
