@@ -114,7 +114,7 @@
         floatElement.style.background       = "rgba(0,0,0,0.5)";
         pathToImg = !!pathToImg ?
                     pathToImg :
-                    "https://raw2.github.com/stakisko/quoteme.js/master/example/tw.png";
+                    "https://raw2.github.com/kbariotis/quoteme.js/master/example/tw.png";
         floatElement.style.backgroundImage  = "url("+ pathToImg +")";
         floatElement.style.backgroundRepeat = "no-repeat";
         floatElement.style.backgroundPosition = "center";
