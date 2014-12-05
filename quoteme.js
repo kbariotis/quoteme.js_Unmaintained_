@@ -19,7 +19,7 @@
      */
     var container            = ".article",
         pathToImg            = "",  /* /path/to/tw.png | leave it blank for Github's raw img on
-                                     * https://raw2.github.com/stakisko/quoteme.js/master/example/tw.png */
+                                     * https://raw.githubusercontent.com/kbariotis/quoteme.js/master/example/tw.png */
         viaParam             = "kbariotis", /* via param on twitter post */
         twShareUrl           = "https://twitter.com/intent/tweet?",
         shareUrl             = "",
@@ -114,7 +114,7 @@
         floatElement.style.background       = "rgba(0,0,0,0.5)";
         pathToImg = !!pathToImg ?
                     pathToImg :
-                    "https://raw2.github.com/kbariotis/quoteme.js/master/example/tw.png";
+                    "https://raw.githubusercontent.com/kbariotis/quoteme.js/master/example/tw.png";
         floatElement.style.backgroundImage  = "url("+ pathToImg +")";
         floatElement.style.backgroundRepeat = "no-repeat";
         floatElement.style.backgroundPosition = "center";
