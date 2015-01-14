@@ -1,0 +1,92 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Medium-like, Share to Twitter popup button on text selection</title>
+
+    <style>
+        html {
+          font-family: Verdana, sans-serif;
+          -ms-text-size-adjust: 100%;
+          -webkit-text-size-adjust: 100%;
+        }
+        body,pre {
+          margin: 0;
+          padding: 0;
+        }
+        .article,
+        .install,
+        .credits {
+          width: 50%;
+          margin: 50px auto;
+          line-height: 1.5em;
+        }
+        h1, h2 {
+            text-align: center;
+            line-height: 2em;
+        }
+        h2, .credits a{ color:#b072d4; }
+        code {
+            background: #333;
+            display: block;
+            font-size: 1.2em;
+            font-weight:bold;
+            color: white;
+        }
+    </style>
+</head>
+<body>
+    <div class="article">
+        <h1>quoteme.js</h1>
+        <h2>Medium-like, Share to Twitter popup button on text selection</h2>
+
+        <h1>Quote any text on this blog post</h1>
+
+        <h2>Go ahead and make a selection</h2>
+        <h2>From here to there, or below</h2>
+
+        <h3>Lorem ipsum dolor sit amet</h3>
+        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aut, molestias, soluta, error quam nobis rerum ex ratione fuga ipsum eos quo incidunt sapiente ullam quasi iusto quidem explicabo ad. <a href="#">Asperiores?</a></p>
+
+        <p>Odit, perspiciatis, <a href="#">ipsa</a> iure minima doloribus at suscipit molestias! Dolore, placeat minima explicabo a excepturi mollitia commodi provident impedit quas atque enim modi necessitatibus labore cum debitis quam deleniti possimus!</p>
+
+        <p>Enim minima corporis quia tempora deleniti hic quidem sunt culpa distinctio eos. Nostrum, ipsa, natus, nulla <a href="#">praesentium</a> voluptatum quia consequatur harum ad eum perspiciatis ipsam amet explicabo quisquam ipsum neque!</p>
+    </div>
+    <div class="install">
+        <h3>Like it?</h3>
+        <p><a href="https://github.com/kbariotis/quoteme.js/archive/master.zip">Download it</a>, upload it to your server, and include it on your bottom of your page</p>
+        <pre>
+            <code>
+            &lt;<font color="red">script</font> <font color="green">src</font>=<font color="yellow">"/path/to/quoteme.js"</font>&gt;&lt;<font color="red">/script</font>&gt;
+            </code>
+        </pre>
+        <p>Change the first two options according to your needs</p>
+        <pre>
+            <code>
+            <font color="grey">
+            /* `container` : Determine which is your text container tha you
+             * want the script to run on click of the mouse. If it runs on
+             * whole page it's going to be ugly
+             *
+             * `pathToImg` : /path/to/tw.png | leave it blank for Github's raw img on
+             * https://raw2.github.com/kbariotis/quoteme.js/master/example/tw.png
+             */</font>
+            <font color="lightblue">var</font> container <font color="red">=</font> <font color="yellow">".article",</font>
+                pathToImg <font color="red">=</font> <font color="yellow">"./tw.png"</font>,
+            </code>
+        </pre>
+    </div>
+    <div class="credits">
+        <h3>
+            Coded with love by <a href="http://kostasbariotis.com" target="_blank">@kbariotis</a>
+        </h3>
+        <h3>Shoot it out!</h3>
+        <a href="https://twitter.com/share" class="twitter-share-button" data-via="kbariotis" data-size="large" data-hashtags="webdev,quotemejs,javascript" >Tweet</a>
+        <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script>
+    </div>
+
+    <a href="https://github.com/kbariotis/quoteme.js"><img style="position: absolute; top: 0; left: 0; border: 0;" src="https://github-camo.global.ssl.fastly.net/82b228a3648bf44fc1163ef44c62fcc60081495e/68747470733a2f2f73332e616d617a6f6e6177732e636f6d2f6769746875622f726962626f6e732f666f726b6d655f6c6566745f7265645f6161303030302e706e67" alt="Fork me on GitHub" data-canonical-src="https://s3.amazonaws.com/github/ribbons/forkme_left_red_aa0000.png"></a>
+
+    <script src="../quoteme.js"></script>
+</body>
+</html>
