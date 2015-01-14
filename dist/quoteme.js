@@ -1,11 +1,10 @@
-/*! lib-tmpl - v0.2.1 - 2015-01-13 - Jeremy Kahn */
+/*! lib-tmpl - v0.2.1 - 2015-01-14 - Jeremy Kahn */
 ;(function (global) {
 
 // Compiler directive for UglifyJS.  See library.const.js for more info.
 if (typeof DEBUG === 'undefined') {
   DEBUG = true;
 }
-
 
 // LIBRARY-GLOBAL CONSTANTS
 //
@@ -26,45 +25,39 @@ var Fn = Function, GLOBAL = new Fn('return this')();
 /**
  * A no-op function.  Useful for passing around as a default callback.
  */
-function noop () { }
+function noop() { }
 
 
 /**
  * Init wrapper for the core module.
- * @param {Object} The Object that the library gets attached to in
+ * @param {Object} context The Object that the library gets attached to in
  * library.init.js.  If the library was not loaded with an AMD loader such as
  * require.js, this is the global Object.
  */
-function initLibraryCore (context) {
+function initLibraryCore(context) {
 
-
-  // It is recommended to use strict mode to help make mistakes easier to find.
   'use strict';
 
-
-  // PRIVATE MODULE CONSTANTS
-  //
-
-
-  // An example of a CONSTANT variable;
-  var CORE_CONSTANT = true;
+// PRIVATE MODULE CONSTANTS
+//
 
 
-  // PRIVATE MODULE METHODS
-  //
-  // These do not get attached to a prototype.  They are private utility
-  // functions.
+// An example of a CONSTANT variable;
+  var TWITTER_SHARE_URL = "https://twitter.com/intent/tweet?";
 
 
-  /**
-   *  An example of a private method.  Feel free to remove this.
-   *  @param {number} aNumber This is a parameter description.
-   *  @returns {number} This is a return value description.
-   */
-  function corePrivateMethod (aNumber) {
-    return aNumber;
+// PRIVATE MODULE METHODS
+//
+// These do not get attached to a prototype.  They are private utility
+// functions.
+
+  /* Events Binding Method */
+  function bindEvent(element, type, handler) {
+    if (element.addEventListener)
+      element.addEventListener(type, handler, false);
+    else
+      element.attachEvent('on' + type, handler);
   }
-
 
   /**
    * This is the constructor for the Library Object.  Please rename it to
@@ -76,149 +69,192 @@ function initLibraryCore (context) {
    */
   var Library = context.Quoteme = function (opt_config) {
 
+    this.mouseUpXPosition = null;
+    this.mouseDownXPosition = null;
+
+    this.config = {
+      "container": ".article",
+      /**
+       * /path/to/tw.png | leave it blank for Github's raw img on
+       * https://raw.githubusercontent.com/kbariotis/quoteme.js/master/example/tw.png
+       * @type {string}
+       */
+      "pathToImg": "",
+      "viaParam": "kbariotis"
+    };
+
     opt_config = opt_config || {};
 
-    // INSTANCE PROPERTY SETUP
-    //
-    // Your library likely has some instance-specific properties.  The value of
-    // these properties can depend on any number of things, such as properties
-    // passed in via opt_config or global state.  Whatever the case, the values
-    // should be set in this constructor.
+    for (var key in opt_config)
+      if (opt_config.hasOwnProperty(key) && this.config.hasOwnProperty(key))
+        this.config[key] = opt_config[key];
 
-    // Instance variables that have a leading underscore mean that they should
-    // not be modified outside of the library.  They can be freely modified
-    // internally, however.  If an instance variable will likely be accessed
-    // outside of the library, consider making a public getter function for it.
-    this._readOnlyVar = 'read only';
+    if (!document.querySelector(this.config.container))
+      throw new Error("No containers found on");
 
-    // Instance variables that do not have an underscore prepended are
-    // considered to be part of the library's public API.  External code may
-    // change the value of these variables freely.
-    this.readAndWrite = 'read and write';
+    this.floatElement = this.createShareElement();
+    this.floatElement = this.styleShareElement(this.floatElement);
+
+    this.bindUIEvents();
 
     return this;
   };
 
-
-  // LIBRARY PROTOTYPE METHODS
-  //
-  // These methods define the public API.
-
-
-  /**
-   * An example of a protoype method.
-   * @return {string}
-   */
-  Library.prototype.getReadOnlyVar = function () {
-    return this._readOnlyVar;
+  Library.prototype.bindUIEvents = function () {
+    bindEvent(document.querySelector(this.config.container), "mouseup", this.getSelection.bind(this));
+    bindEvent(document.querySelector(this.config.container), "mousedown", this._setMouseDownPosition);
+    bindEvent(this.floatElement, "click", this.openPopup.bind(this));
   };
 
+  Library.prototype.getSelection = function (e) {
+
+    /* Keep track of where selection ended */
+    this._setMouseUpPosition(e);
+
+    var t = document.getSelection();
+
+    if (!t.toString() || e.target.tagName === "A") {
+      this.floatElement.style.display = "none";
+      return false;
+    }
+
+    var selectedText = t.toString();
+
+    /*
+     * First, calculate the length of link and via nickname,
+     * then cut the selected on the remaining characters
+     */
+    var length = parseInt(this.config.viaParam.length) +
+                 parseInt(document.location.href.length) + 7;
+    /* 7 for the `via` word, some spaces and @*/
+
+    if (parseInt(selectedText.length) + length > 140) {
+      /* Remove new lines */
+      selectedText = selectedText.substring(0, 135 - parseInt(length));
+    }
+
+    /* add `...` and `"` */
+    selectedText = "\"" + selectedText.replace(/(\r\n|\n|\r)/gm, "") + "...\"";
+
+    /* Glue the pieces together */
+    this.shareUrl = TWITTER_SHARE_URL;
+    this.shareUrl += "text=" + encodeURIComponent(selectedText);
+    this.shareUrl += "&via=" + encodeURIComponent(this.config.viaParam);
+    this.shareUrl += "&url=" + document.location;
+
+    this.displayShareButton(t);
+
+    return true;
+  };
 
   /**
-   * This is an example of a chainable method.  That means that the return
-   * value of this function is the library instance itself (`this`).  This lets
-   * you do chained method calls like this:
-   *
-   * var myLibrary = new Library();
-   * myLibrary
-   *   .chainableMethod()
-   *   .chainableMethod();
-   *
-   * @return {Library}
+   * Create an Anchor Element
+   * @returns {HTMLElement}
    */
-  Library.prototype.chainableMethod = function () {
+  Library.prototype.createShareElement = function () {
+    var e = document.createElement("a");
+    e.href = "#";
+    document.body.appendChild(e);
+
+    return e;
+  };
+
+  /**
+   * @returns {HTMLElement}
+   */
+  Library.prototype.getFloatElement = function () {
+    return this.floatElement;
+  };
+
+  /**
+   * Keep track of where selection started
+   * @param e Event
+   * @returns {context.Quoteme}
+   * @private
+   */
+  Library.prototype._setMouseDownPosition = function (e) {
+    this.mouseDownXPosition = e.pageX;
+
     return this;
   };
 
+  /**
+   * Keep track of where selection ended
+   * @param e Event
+   * @returns {context.Quoteme}
+   * @private
+   */
+  Library.prototype._setMouseUpPosition = function (e) {
+    this.mouseUpXPosition = e.pageX;
 
-  // DEBUG CODE
-  //
-  // With compiler directives, you can wrap code in a conditional check to
-  // ensure that it does not get included in the compiled binaries.  This is
-  // useful for exposing certain properties and methods that are needed during
-  // development and testing, but should be private in the compiled binaries.
+    return this;
+  };
+
+  /**
+   * @returns {HTMLElement}
+   */
+  Library.prototype.styleShareElement = function (e) {
+    e.style.position = "absolute";
+    e.style.display = "none";
+    e.style.width = "40px";
+    e.style.height = "40px";
+    e.style.background = "rgba(0,0,0,0.5)";
+    var pathToImg = !!this.config.pathToImg ?
+                    this.config.pathToImg :
+                    "https://raw.githubusercontent.com/kbariotis/quoteme.js/master/example/tw.png";
+    e.style.backgroundImage = "url(" + pathToImg + ")";
+    e.style.backgroundRepeat = "no-repeat";
+    e.style.backgroundPosition = "center";
+    e.style.borderRadius = "4%";
+    e.style.pointer = "cursor";
+
+    return e;
+  };
+
+  /**
+   *
+   * @param t
+   */
+  Library.prototype.displayShareButton = function(t) {
+    console.log(t);
+    var floatElementHeight = parseInt(this.floatElement.style.height);
+
+    this.floatElement.style.left = (this.mouseDownXPosition + this.mouseUpXPosition) / 2
+                                          - floatElementHeight / 2 + "px";
+
+    this.floatElement.style.top = Math.min(
+      t.anchorNode.parentElement.offsetTop,
+      t.focusNode.parentElement.offsetTop) - floatElementHeight + "px";
+
+    this.floatElement.style.display = "block";
+  };
+
+  Library.prototype.openPopup = function(e) {
+
+    var width = 575,
+      height = 400,
+      left = (window.innerWidth - width) / 2,
+      top = (window.innerHeight - height) / 2,
+      url = this.shareUrl,
+      opts = 'status=1' +
+             ',width=' + width +
+             ',height=' + height +
+             ',top=' + top +
+             ',left=' + left;
+
+    window.open(url, 'twitter', opts);
+  };
+
+// DEBUG CODE
+//
+// With compiler directives, you can wrap code in a conditional check to
+// ensure that it does not get included in the compiled binaries.  This is
+// useful for exposing certain properties and methods that are needed during
+// development and testing, but should be private in the compiled binaries.
 
 
   if (DEBUG) {
-    GLOBAL.corePrivateMethod = corePrivateMethod;
-  }
-
-}
-
-// Your library may have many modules.  How you organize the modules is up to
-// you, but generally speaking it's best if each module addresses a specific
-// concern.  No module should need to know about the implementation details of
-// any other module.
-
-// Note:  You must name this function something unique.  If you end up
-// copy/pasting this file, the last function defined will clobber the previous
-// one.
-function initLibraryModule (context) {
-
-  'use strict';
-
-  var Quoteme = context.Quoteme;
-
-
-  // A library module can do two things to the Library Object:  It can extend
-  // the prototype to add more methods, and it can add static properties.  This
-  // is useful if your library needs helper methods.
-
-
-  // PRIVATE MODULE CONSTANTS
-  //
-
-
-  var MODULE_CONSTANT = true;
-
-
-  // PRIVATE MODULE METHODS
-  //
-
-
-  /**
-   *  An example of a private method.  Feel free to remove this.
-   */
-  function modulePrivateMethod () {
-    return;
-  }
-
-
-  // LIBRARY STATIC PROPERTIES
-  //
-
-
-  /**
-   * An example of a static Library property.  This particular static property
-   * is also an instantiable Object.
-   * @constructor
-   */
-  Quoteme.LibraryHelper = function () {
-    return this;
-  };
-
-
-  // LIBRARY PROTOTYPE EXTENSIONS
-  //
-  // A module can extend the prototype of the Library Object.
-
-
-  /**
-   * An example of a prototype method.
-   * @return {string}
-   */
-  Quoteme.prototype.alternateGetReadOnlyVar = function () {
-    // Note that a module can access all of the Library instance variables with
-    // the `this` keyword.
-    return this._readOnlyVar;
-  };
-
-
-  if (DEBUG) {
-    // DEBUG CODE
-    //
-    // Each module can have its own debugging section.  They all get compiled
-    // out of the binary.
+//    GLOBAL.corePrivateMethod = corePrivateMethod;
   }
 
 }
@@ -227,8 +263,8 @@ function initLibraryModule (context) {
 var initLibrary = function (context) {
 
   initLibraryCore(context);
-  initLibraryModule(context);
-  initLibrarySubmodule(context);
+  //initLibraryModule(context);
+  //initLibrarySubmodule(context);
   // Add a similar line as above for each module that you have.  If you have a
   // module named "Awesome Module," it should live in the file
   // "src/library.awesome-module.js" with a wrapper function named
