@@ -1,1 +1,3 @@
-script: node_module/.bin/grunt qunit --verbose --force
+before_install: npm install -g grunt-cli
+install: npm install
+script: grunt qunit --verbose --force
