@@ -1,6 +1,5 @@
 {
   "name": "quoteme.js",
-  "version": "0.2",
   "description": "Medium-like, Share to Twitter popup button on text selection",
   "directories": {
     "test": "test",
@@ -18,5 +17,8 @@
     "grunt-contrib-uglify": "~0.1.2"
   },
   "author": "Kostas Bariotis",
-  "license": "MIT"
+  "license": "MIT",
+  "dependencies": {
+    "grunt-cli": "^0.1.13"
+  }
 }
