@@ -4,18 +4,12 @@
   <link href="qunit/qunit.css" rel="stylesheet" type="text/css"/>
   <script src="qunit/qunit.js"></script>
   <script src="../vendor/jquery.js"></script>
-  <!-- Add source files here as necessary.  There are the raw source files,
-  and they have not been compiled of wrapped in a closure.  Include them in the
-  order that they should be included in.  If you are following the template's
-  pattern, the init file MUST be loaded last. -->
   <script src="../src/quoteme.core.js"></script>
-  <script src="../src/quoteme.module.js"></script>
-  <script src="../src/submodule/library.submodule.js"></script>
   <script src="../src/quoteme.init.js"></script>
   <script></script>
 </head>
 <body>
-<h1 id="qunit-header">Library Unit Tests</h1>
+<h1 id="qunit-header">Quoteme.js Unit Tests</h1>
 
 <h2 id="qunit-banner"></h2>
 
@@ -53,6 +47,14 @@
       );
     });
 
+    test('Share element can be created', function () {
+      var library = new Quoteme();
+      var e = library.createShareElement();
+
+      var getClassOf = Function.prototype.call.bind(Object.prototype.toString);
+      equal(getClassOf(e), '[object HTMLAnchorElement]', 'Share element must be [object HTMLAnchorElement].');
+    });
+
     test('Will bind getSelection Event', function () {
       var library = new Quoteme();
 
@@ -79,47 +81,6 @@
 
 
     module('Private API');
-
-//        test( 'Can return a number with corePrivateMethod', function () {
-//            var returnedNumber = corePrivateMethod( 5 );
-//
-//            equal( returnedNumber, 5,
-//                    'The number provided was the number returned' );
-//        } );
-
-    module('Submodule Constructor');
-
-    test('Can Submodule run', function () {
-      var library = new Quoteme();
-      var submodule = new Quoteme.Submodule();
-
-      equal(submodule.instanceVariable, 'Constructor Variable',
-        'The constructor has completed successfully');
-    });
-
-    module('Submodule public method getter');
-
-    test('Can Submodule public method get an instance value', function () {
-      var library = new Quoteme();
-      var submodule = new Quoteme.Submodule();
-
-      equal(submodule.publicMethod(), 'Constructor Variable',
-        'The public method has returned the constructor variable');
-    });
-
-
-    module('Submodule public method setter');
-
-    test('Can Submodule public method set an instance value', function () {
-      var library = new Quoteme();
-      var submodule = new Quoteme.Submodule();
-      var newValue = 7;
-      submodule.publicMethod(newValue);
-
-
-      equal(submodule.instanceVariable, newValue,
-        'The public method has the value set using the setter');
-    });
 
   }());
 </script>
