@@ -201,7 +201,7 @@ function initLibraryCore(context) {
     e.style.background = "rgba(0,0,0,0.5)";
     var pathToImg = !!this.config.pathToImg ?
                     this.config.pathToImg :
-                    "https://raw.githubusercontent.com/kbariotis/quoteme.js/master/example/tw.png";
+                    "https://raw.githubusercontent.com/kbariotis/quoteme.js/master/dist/tw.png";
     e.style.backgroundImage = "url(" + pathToImg + ")";
     e.style.backgroundRepeat = "no-repeat";
     e.style.backgroundPosition = "center";
