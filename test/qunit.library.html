@@ -1,18 +1,18 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <link href="qunit/qunit.css" rel="stylesheet" type="text/css"/>
-    <script src="qunit/qunit.js"></script>
-    <script src="../vendor/jquery.js"></script>
-    <!-- Add source files here as necessary.  There are the raw source files,
-    and they have not been compiled of wrapped in a closure.  Include them in the
-    order that they should be included in.  If you are following the template's
-    pattern, the init file MUST be loaded last. -->
-    <script src="../src/quoteme.core.js"></script>
-    <script src="../src/quoteme.module.js"></script>
-    <script src="../src/submodule/library.submodule.js"></script>
-    <script src="../src/quoteme.init.js"></script>
-    <script></script>
+  <link href="qunit/qunit.css" rel="stylesheet" type="text/css"/>
+  <script src="qunit/qunit.js"></script>
+  <script src="../vendor/jquery.js"></script>
+  <!-- Add source files here as necessary.  There are the raw source files,
+  and they have not been compiled of wrapped in a closure.  Include them in the
+  order that they should be included in.  If you are following the template's
+  pattern, the init file MUST be loaded last. -->
+  <script src="../src/quoteme.core.js"></script>
+  <script src="../src/quoteme.module.js"></script>
+  <script src="../src/submodule/library.submodule.js"></script>
+  <script src="../src/quoteme.init.js"></script>
+  <script></script>
 </head>
 <body>
 <h1 id="qunit-header">Library Unit Tests</h1>
@@ -24,60 +24,61 @@
 <ol id="qunit-tests"></ol>
 <div id="qunit-fixture">
 
-    <div class="article">
-        this is a dummy text that can me wrapped and highlighted
-    </div>
+  <div class="article">
+    this is a dummy text that can me wrapped and highlighted
+  </div>
 
 </div>
 <script>
-    (function () {
+  (function () {
 
-        module( 'Public API' );
+    module('Public API');
 
-        test( 'Can get the read-only property', function () {
-            var library = new Quoteme();
+    test('Can get the read-only property', function () {
+      var library = new Quoteme();
 
-            equal( 1, 1,
-                    'Read-only variable was read' );
-        } );
+      equal(1, 1,
+        'Read-only variable was read');
+    });
 
-        test( 'Will throw exception when container not found', function () {
-            raises(
-                    function () {
-                        new Quoteme( {
-                            "container": '.not-existing-container'
-                        } )
-                    },
-                    Error,
-                    "Should throw an exception"
-            );
-        } );
+    test('Will throw exception when container not found', function () {
+      raises(
+        function () {
+          new Quoteme({
+            "container": '.not-existing-container'
+          })
+        },
+        Error,
+        "Should throw an exception"
+      );
+    });
 
-        test( 'Will bind UI events', function () {
-            var library = new Quoteme();
+    test('Will bind getSelection Event', function () {
+      var library = new Quoteme();
 
-            var event; // The custom event that will be created
+      var event;
+      if (document.createEvent) {
+        event = document.createEvent("HTMLEvents");
+        event.initEvent("mouseup", true, true);
+      } else {
+        event = document.createEventObject();
+        event.eventType = "mouseup";
+      }
 
-            if ( document.createEvent ) {
-                event = document.createEvent( "HTMLEvents" );
-                event.initEvent( "mouseup", true, true );
-            } else {
-                event = document.createEventObject();
-                event.eventType = "mouseup";
-            }
+      event.eventName = "mouseup";
 
-            event.eventName = "mouseup";
+      if (document.createEvent) {
+        document.querySelector('.article').dispatchEvent(event);
+      } else {
+        document.querySelector('.article').fireEvent("on" + event.eventType, event);
+      }
 
-            if ( document.createEvent ) {
-                document.querySelector( '.article' ).dispatchEvent( event );
-            } else {
-                document.querySelector( '.article' ).fireEvent( "on" + event.eventType, event );
-            }
+      equal(library.getFloatElement().style.display, "none");
 
-        } );
+    });
 
 
-        module( 'Private API' );
+    module('Private API');
 
 //        test( 'Can return a number with corePrivateMethod', function () {
 //            var returnedNumber = corePrivateMethod( 5 );
@@ -86,41 +87,41 @@
 //                    'The number provided was the number returned' );
 //        } );
 
-        module( 'Submodule Constructor' );
+    module('Submodule Constructor');
 
-        test( 'Can Submodule run', function () {
-            var library = new Quoteme();
-            var submodule = new Quoteme.Submodule();
+    test('Can Submodule run', function () {
+      var library = new Quoteme();
+      var submodule = new Quoteme.Submodule();
 
-            equal( submodule.instanceVariable, 'Constructor Variable',
-                    'The constructor has completed successfully' );
-        } );
+      equal(submodule.instanceVariable, 'Constructor Variable',
+        'The constructor has completed successfully');
+    });
 
-        module( 'Submodule public method getter' );
+    module('Submodule public method getter');
 
-        test( 'Can Submodule public method get an instance value', function () {
-            var library = new Quoteme();
-            var submodule = new Quoteme.Submodule();
+    test('Can Submodule public method get an instance value', function () {
+      var library = new Quoteme();
+      var submodule = new Quoteme.Submodule();
 
-            equal( submodule.publicMethod(), 'Constructor Variable',
-                    'The public method has returned the constructor variable' );
-        } );
-
-
-        module( 'Submodule public method setter' );
-
-        test( 'Can Submodule public method set an instance value', function () {
-            var library = new Quoteme();
-            var submodule = new Quoteme.Submodule();
-            var newValue = 7;
-            submodule.publicMethod( newValue );
+      equal(submodule.publicMethod(), 'Constructor Variable',
+        'The public method has returned the constructor variable');
+    });
 
 
-            equal( submodule.instanceVariable, newValue,
-                    'The public method has the value set using the setter' );
-        } );
+    module('Submodule public method setter');
 
-    }());
+    test('Can Submodule public method set an instance value', function () {
+      var library = new Quoteme();
+      var submodule = new Quoteme.Submodule();
+      var newValue = 7;
+      submodule.publicMethod(newValue);
+
+
+      equal(submodule.instanceVariable, newValue,
+        'The public method has the value set using the setter');
+    });
+
+  }());
 </script>
 </body>
 </html>
