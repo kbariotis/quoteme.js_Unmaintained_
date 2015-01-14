@@ -10,19 +10,9 @@ module.exports = function(grunt) {
     return head.concat(MODULE_LIST).concat(tail);
   }
 
-  // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-  // You will want to chage the value of this constant to whatever your library
-  // is called.
-  // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
   var LIBRARY_NAME = 'quoteme';
 
-  // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-  // Add your modules to this list
-  // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-  var MODULE_LIST = [
-      sub('src/%s.module.js'),
-      sub('src/submodule/%s.submodule.js')
-    ];
+  var MODULE_LIST = [];
 
   var DIST_HEAD_LIST = [
       sub('src/%s.intro.js'),
@@ -30,8 +20,7 @@ module.exports = function(grunt) {
       sub('src/%s.core.js')
     ];
 
-  // This is the same as DIST_HEAD_LIST, just without *.const.js (which is just
-  // there UglifyJS conditional compilation).
+
   var DEV_HEAD_LIST = [
       sub('src/%s.intro.js'),
       sub('src/%s.core.js')
@@ -42,7 +31,6 @@ module.exports = function(grunt) {
       sub('src/%s.outro.js')
     ];
 
-  // Gets inserted at the top of the generated files in dist/.
   var BANNER = [
       '/*! <%= pkg.name %> - v<%= pkg.version %> - ',
       '<%= grunt.template.today("yyyy-mm-dd") %> - <%= pkg.author %> */\n'

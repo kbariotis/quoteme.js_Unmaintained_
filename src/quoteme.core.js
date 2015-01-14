@@ -56,38 +56,6 @@ function initLibraryCore(context) {
       element.attachEvent('on' + type, handler);
   }
 
-  /* Display the Share Button and position it in the screen */
-  function displayShareButton(t) {
-    var floatElementHeight = parseInt(this.config.floatElement.style.height);
-
-    this.config.floatElement.style.left = (this.config.mouseDownXPosition + this.config.mouseUpXPosition) / 2
-                                          - floatElementHeight / 2 + "px";
-
-    this.config.floatElement.style.top = Math.min(
-      t.anchorNode.parentElement.offsetTop,
-      t.focusNode.parentElement.offsetTop) - floatElementHeight + "px";
-
-    this.config.floatElement.style.display = "block";
-  }
-
-  /* Create and open a popup */
-  function openPopup(e) {
-    e.preventDefault();
-
-    var width = 575,
-      height = 400,
-      left = (window.innerWidth - width) / 2,
-      top = (window.innerHeight - height) / 2,
-      url = config.shareUrl,
-      opts = 'status=1' +
-             ',width=' + width +
-             ',height=' + height +
-             ',top=' + top +
-             ',left=' + left;
-
-    window.open(url, 'twitter', opts);
-  }
-
   /**
    * This is the constructor for the Library Object.  Please rename it to
    * whatever your library's name is.  Note that the constructor is also being
@@ -109,8 +77,7 @@ function initLibraryCore(context) {
        * @type {string}
        */
       "pathToImg": "",
-      "viaParam": "kbariotis", /* via param on twitter post */
-      "shareUrl": ""
+      "viaParam": "kbariotis"
     };
 
     opt_config = opt_config || {};
@@ -133,7 +100,7 @@ function initLibraryCore(context) {
   Library.prototype.bindUIEvents = function () {
     bindEvent(document.querySelector(this.config.container), "mouseup", this.getSelection.bind(this));
     bindEvent(document.querySelector(this.config.container), "mousedown", this._setMouseDownPosition);
-    bindEvent(this.floatElement, "click", openPopup);
+    bindEvent(this.floatElement, "click", this.openPopup.bind(this));
   };
 
   Library.prototype.getSelection = function (e) {
@@ -167,12 +134,12 @@ function initLibraryCore(context) {
     selectedText = "\"" + selectedText.replace(/(\r\n|\n|\r)/gm, "") + "...\"";
 
     /* Glue the pieces together */
-    this.config.shareUrl = TWITTER_SHARE_URL;
-    this.config.shareUrl += "text=" + encodeURIComponent(selectedText);
-    this.config.shareUrl += "&via=" + encodeURIComponent(this.config.viaParam);
-    this.config.shareUrl += "&url=" + document.location;
+    this.shareUrl = TWITTER_SHARE_URL;
+    this.shareUrl += "text=" + encodeURIComponent(selectedText);
+    this.shareUrl += "&via=" + encodeURIComponent(this.config.viaParam);
+    this.shareUrl += "&url=" + document.location;
 
-    displayShareButton(t);
+    this.displayShareButton(t);
 
     return true;
   };
@@ -239,6 +206,39 @@ function initLibraryCore(context) {
     e.style.pointer = "cursor";
 
     return e;
+  };
+
+  /**
+   *
+   * @param t
+   */
+  Library.prototype.displayShareButton = function(t) {
+    var floatElementHeight = parseInt(this.floatElement.style.height);
+
+    this.floatElement.style.left = (this.mouseDownXPosition + this.mouseUpXPosition) / 2
+                                          - floatElementHeight / 2 + "px";
+
+    this.floatElement.style.top = Math.min(
+      t.anchorNode.parentElement.offsetTop,
+      t.focusNode.parentElement.offsetTop) - floatElementHeight + "px";
+
+    this.floatElement.style.display = "block";
+  };
+
+  Library.prototype.openPopup = function(e) {
+
+    var width = 575,
+      height = 400,
+      left = (window.innerWidth - width) / 2,
+      top = (window.innerHeight - height) / 2,
+      url = this.shareUrl,
+      opts = 'status=1' +
+             ',width=' + width +
+             ',height=' + height +
+             ',top=' + top +
+             ',left=' + left;
+
+    window.open(url, 'twitter', opts);
   };
 
 // DEBUG CODE

@@ -1,5 +1,5 @@
 {
-  "name": "lib-tmpl",
+  "name": "quoteme.js",
   "version": "0.2.1",
   "main": "./dist/library.min.js",
   "license": "MIT"
