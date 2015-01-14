@@ -28,13 +28,6 @@
 
     module('Public API');
 
-    test('Can get the read-only property', function () {
-      var library = new Quoteme();
-
-      equal(1, 1,
-        'Read-only variable was read');
-    });
-
     test('Will throw exception when container not found', function () {
       raises(
         function () {

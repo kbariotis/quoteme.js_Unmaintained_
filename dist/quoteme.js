@@ -1,4 +1,4 @@
-/*! lib-tmpl - v0.2.1 - 2015-01-14 - Jeremy Kahn */
+/*! quoteme.js - v0.2 - 2015-01-14 - Kostas Bariotis */
 ;(function (global) {
 
 // Compiler directive for UglifyJS.  See library.const.js for more info.
@@ -216,7 +216,6 @@ function initLibraryCore(context) {
    * @param t
    */
   Library.prototype.displayShareButton = function(t) {
-    console.log(t);
     var floatElementHeight = parseInt(this.floatElement.style.height);
 
     this.floatElement.style.left = (this.mouseDownXPosition + this.mouseUpXPosition) / 2
@@ -263,14 +262,6 @@ function initLibraryCore(context) {
 var initLibrary = function (context) {
 
   initLibraryCore(context);
-  //initLibraryModule(context);
-  //initLibrarySubmodule(context);
-  // Add a similar line as above for each module that you have.  If you have a
-  // module named "Awesome Module," it should live in the file
-  // "src/library.awesome-module.js" with a wrapper function named
-  // "initAwesomeModule".  That function should then be invoked here with:
-  //
-  // initAwesomeModule(context);
 
   return context.Quoteme;
 };
