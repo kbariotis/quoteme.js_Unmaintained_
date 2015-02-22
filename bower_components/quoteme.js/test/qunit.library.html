@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <link href="qunit/qunit.css" rel="stylesheet" type="text/css"/>
+  <script src="qunit/qunit.js"></script>
+  <script src="../bower_components/jquery/dist/jquery.min.js"></script>
+  <script src="../src/quoteme.core.js"></script>
+  <script src="../src/quoteme.init.js"></script>
+  <script></script>
+</head>
+<body>
+<h1 id="qunit-header">Quoteme.js Unit Tests</h1>
+
+<h2 id="qunit-banner"></h2>
+
+<div id="qunit-testrunner-toolbar"></div>
+<h2 id="qunit-userAgent"></h2>
+<ol id="qunit-tests"></ol>
+<div id="qunit-fixture">
+
+  <div class="article">
+    this is a dummy text that can me wrapped and highlighted
+  </div>
+
+</div>
+<script>
+  (function () {
+
+    module('Public API');
+
+    test('Will throw exception when container not found', function () {
+      raises(
+        function () {
+          new Quoteme({
+            "container": '.not-existing-container'
+          })
+        },
+        Error,
+        "Should throw an exception"
+      );
+    });
+
+    test('Share element can be created', function () {
+      var library = new Quoteme();
+      var e = library.createShareElement();
+
+//      var getClassOf = Function.prototype.call.bind(Object.prototype.toString);
+      equal(1, 1);
+    });
+
+    test('Will bind getSelection Event', function () {
+      var library = new Quoteme();
+
+      var event;
+      if (document.createEvent) {
+        event = document.createEvent("HTMLEvents");
+        event.initEvent("mouseup", true, true);
+      } else {
+        event = document.createEventObject();
+        event.eventType = "mouseup";
+      }
+
+      event.eventName = "mouseup";
+
+      if (document.createEvent) {
+        document.querySelector('.article').dispatchEvent(event);
+      } else {
+        document.querySelector('.article').fireEvent("on" + event.eventType, event);
+      }
+
+      equal(library.getFloatElement().style.display, "none");
+
+    });
+
+
+    module('Private API');
+
+  }());
+</script>
+</body>
+</html>

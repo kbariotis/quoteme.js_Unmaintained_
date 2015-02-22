@@ -1,0 +1,22 @@
+{
+  "name": "quoteme.js",
+  "version": "0.1.0",
+  "homepage": "https://github.com/kbariotis/quoteme.js",
+  "authors": [
+    "Kostas Bariotis <konmpar@gmail.com>"
+  ],
+  "description": "Medium-like, Share to Twitter popup button on text selection",
+  "keywords": [
+    "twitter",
+    "share",
+    "text",
+    "selection",
+    "medium.com"
+  ],
+  "license": "MIT",
+  "dependencies": {
+    "grunt-cli": "~0.1.13",
+    "require": "*",
+    "jquery": "~2.1.3"
+  }
+}
