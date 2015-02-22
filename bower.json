@@ -15,6 +15,8 @@
   ],
   "license": "MIT",
   "dependencies": {
-    "grunt-cli": "~0.1.13"
+    "grunt-cli": "~0.1.13",
+    "require": "*",
+    "jquery": "~2.1.3"
   }
 }

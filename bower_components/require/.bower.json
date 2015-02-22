@@ -1,0 +1,14 @@
+{
+  "name": "require",
+  "homepage": "https://github.com/nathanfaucett/require.js",
+  "_release": "a45d433fdc",
+  "_resolution": {
+    "type": "branch",
+    "branch": "master",
+    "commit": "a45d433fdc63c9fde14e6c9095495c59934555ff"
+  },
+  "_source": "git://github.com/nathanfaucett/require.js.git",
+  "_target": "*",
+  "_originalSource": "require",
+  "_direct": true
+}

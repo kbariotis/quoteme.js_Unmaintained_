@@ -50,10 +50,11 @@ function initLibraryCore(context) {
 
   /* Events Binding Method */
   function bindEvent(element, type, handler) {
-    if (element.addEventListener)
+    if (element.addEventListener) {
       element.addEventListener(type, handler, false);
-    else
+    } else {
       element.attachEvent('on' + type, handler);
+    }
   }
 
   /**
@@ -82,12 +83,15 @@ function initLibraryCore(context) {
 
     opt_config = opt_config || {};
 
-    for (var key in opt_config)
-      if (opt_config.hasOwnProperty(key) && this.config.hasOwnProperty(key))
+    for (var key in opt_config) {
+      if (opt_config.hasOwnProperty(key) && this.config.hasOwnProperty(key)) {
         this.config[key] = opt_config[key];
+      }
+    }
 
-    if (!document.querySelector(this.config.container))
+    if (!document.querySelector(this.config.container)) {
       throw new Error("No containers found on");
+    }
 
     this.floatElement = this.createShareElement();
     this.floatElement = this.styleShareElement(this.floatElement);
@@ -98,9 +102,10 @@ function initLibraryCore(context) {
   };
 
   Library.prototype.bindUIEvents = function () {
-    bindEvent(document.querySelector(this.config.container), "mouseup", this.getSelection.bind(this));
+    var that = this;
+    bindEvent(document.querySelector(this.config.container), "mouseup", function(e){ that.getSelection(e); });
     bindEvent(document.querySelector(this.config.container), "mousedown", this._setMouseDownPosition);
-    bindEvent(this.floatElement, "click", this.openPopup.bind(this));
+    bindEvent(this.floatElement, "click", function(e) { that.openPopup(e) });
   };
 
   Library.prototype.getSelection = function (e) {
@@ -121,13 +126,13 @@ function initLibraryCore(context) {
      * First, calculate the length of link and via nickname,
      * then cut the selected on the remaining characters
      */
-    var length = parseInt(this.config.viaParam.length) +
-                 parseInt(document.location.href.length) + 7;
+    var length = parseInt(this.config.viaParam.length, 10) +
+                 parseInt(document.location.href.length, 10) + 7;
     /* 7 for the `via` word, some spaces and @*/
 
-    if (parseInt(selectedText.length) + length > 140) {
+    if (parseInt(selectedText.length, 10) + length > 140) {
       /* Remove new lines */
-      selectedText = selectedText.substring(0, 135 - parseInt(length));
+      selectedText = selectedText.substring(0, 135 - parseInt(length, 10));
     }
 
     /* add `...` and `"` */
@@ -213,7 +218,7 @@ function initLibraryCore(context) {
    * @param t
    */
   Library.prototype.displayShareButton = function(t) {
-    var floatElementHeight = parseInt(this.floatElement.style.height);
+    var floatElementHeight = parseInt(this.floatElement.style.height, 10);
 
     this.floatElement.style.left = (this.mouseDownXPosition + this.mouseUpXPosition) / 2
                                           - floatElementHeight / 2 + "px";

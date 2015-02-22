@@ -15,7 +15,7 @@
 
   function requireConfig(path_opts) {
     var paths = $.extend({
-      library: '../dist/library'
+      library: '../dist/quoteme'
     }, path_opts || {});
 
     require.config({
@@ -28,18 +28,18 @@
     module('Loading with RequireJS', {
       teardown: function() {
         $('head').find('script[data-requiremodule]').remove();
-        require.undef('library');
+        require.undef('quoteme');
       }
     });
 
 
-    asyncTest('Can load the minified version of Library', function() {
+    asyncTest('Can load the minified version of Quoteme', function() {
       requireConfig({
-        library: '../dist/library.min'
+        library: '../dist/quoteme.min'
       });
 
-      require(['library'], function(Library) {
-        ok(Library !== undefined);
+      require(['quoteme'], function(Quoteme) {
+        ok(Quoteme !== undefined);
         start();
       });
     });
@@ -48,8 +48,8 @@
     asyncTest('Global scope is not polluted by Library', function() {
       requireConfig();
 
-      require(['library'], function(Kapi) {
-        ok(window.Library === undefined);
+      require(['quoteme'], function(Kapi) {
+        ok(window.Quoteme === undefined);
         start();
       });
     });
