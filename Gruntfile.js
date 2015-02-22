@@ -76,7 +76,7 @@ module.exports = function(grunt) {
     qunit: {
       files: ['test/qunit*.html'],
       urls: [
-        'http://localhost:3000/tests/test.html',
+        'http://localhost/quoteme.js/test/qunit.library.html',
       ]
     },
     jshint: {
